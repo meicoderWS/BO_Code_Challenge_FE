@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import useAxiosRequest from '../../hooks/useAxiosRequest';
-import { Typography, Box, Stack, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Typography, Box, Stack, List, ListItem, ListItemIcon, ListItemText, Container } from '@mui/material';
 import BadgeIcon from '@mui/icons-material/Badge';
 import LanguegeIcon from '@mui/icons-material/Language';
 
@@ -9,13 +9,17 @@ const LocationList = () => {
     const [locations, setLocations] = useState([]);
 
     useEffect(() => {
+        console.log('requets');
         makeRequest('get');
         if (data) {
             setLocations(data);
         }
+        return () => {
+            console.log('unmount');
+        };
     }, []);
     return (
-        <Box>
+        <Container>
             <Typography>Location List</Typography>
             {loading ? (
                 <p>Loading...</p>
@@ -42,7 +46,7 @@ const LocationList = () => {
                 </Stack>
             )}
             {error && <p>Error: {error.message}</p>}
-        </Box>
+        </Container>
     );
 };
 
