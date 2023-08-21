@@ -12,6 +12,7 @@ const useAxiosRequest = () => {
         setLoading(true);
         try {
             const response = await axios[method](`${API_URL}`, body);
+            console.log('response', response);
             setData(response.data);
         } catch (err) {
             setError(err);

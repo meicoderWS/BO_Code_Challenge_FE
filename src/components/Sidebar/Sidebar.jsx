@@ -1,15 +1,15 @@
 import { Typography, Button, Stack, TextField, Box } from '@mui/material';
 import { useState } from 'react';
 import useAxiosRequest from '../../hooks/useAxiosRequest';
+import LocationList from '../LocationList/LocationList';
 const Sidebar = () => {
     const [name, setName] = useState('');
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
 
-    const { loading, data, error, makeRequest } = useAxiosRequest();
+    const { /* loading, data, error, */ makeRequest } = useAxiosRequest();
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(name, latitude, longitude);
         const newLocation = {
             name,
             latitude,
@@ -48,6 +48,7 @@ const Sidebar = () => {
                     </Stack>
                 </Box>
             </Stack>
+            <LocationList />
         </Box>
     );
 };
