@@ -1,27 +1,38 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { API_URL } from '../constants';
 
-const API_URL = 'http://localhost:3000/api/locations';
+function useAxiosRequest(method = 'GET', body = null) {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-const useAxiosRequest = () => {
-    const [loading, setLoading] = useState(false);
-    const [data, setData] = useState(null);
-    const [error, setError] = useState(null);
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const options = {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                };
 
-    const makeRequest = async (method, body = null) => {
-        setLoading(true);
-        try {
-            const response = await axios[method](`${API_URL}`, body);
-            console.log('response', response);
-            setData(response.data);
-        } catch (err) {
-            setError(err);
-        } finally {
-            setLoading(false);
+                if (body) {
+                    options.data = body;
+                }
+
+                const response = await axios(API_URL, options);
+                setData(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setLoading(false);
+            }
         }
-    };
 
-    return { loading, data, error, makeRequest };
-};
+        fetchData();
+    }, [method, body]);
+
+    return { data, loading };
+}
 
 export default useAxiosRequest;
