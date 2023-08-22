@@ -16,6 +16,26 @@ const fetchLocations = createAsyncThunk('locations/fetch', async () => {
     }
 });
 
+const saveLocation = createAsyncThunk('locations/save', async ({ name, latitude, longitude }) => {
+    try {
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                name,
+                latitude,
+                longitude
+            }
+        };
+        const response = await axios(`${API_URL}`, options);
+        return response.data;
+    } catch (error) {
+        console.log('error', error);
+    }
+});
+
 const locationSlice = createSlice({
     name: 'locations',
     initialState,
@@ -30,14 +50,22 @@ const locationSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchLocations.fulfilled, (state, action) => {
+                state.status = 'succeeded';
                 state.locations = action.payload;
             })
             .addCase(fetchLocations.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(saveLocation.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.locations.push(action.payload);
+            })
+            .addCase(saveLocation.pending, (state) => {
                 state.status = 'loading';
             });
     }
 });
 
-export { fetchLocations };
+export { fetchLocations, saveLocation };
 export const { addLocation, removeLocation } = locationSlice.actions;
 export default locationSlice.reducer;

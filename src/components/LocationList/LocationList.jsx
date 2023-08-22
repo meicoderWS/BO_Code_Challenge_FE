@@ -1,12 +1,19 @@
 import { Typography, Box, Stack, List, ListItem, ListItemIcon, ListItemText, Container } from '@mui/material';
 import BadgeIcon from '@mui/icons-material/Badge';
 import LanguegeIcon from '@mui/icons-material/Language';
-import useAxiosRequest from '../../hooks/useAxiosRequest';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchLocations } from '../../redux/locationSlice';
 
 const LocationList = () => {
-    const { data: locations, loading } = useAxiosRequest();
+    const dispatch = useDispatch();
+    const { locations, status } = useSelector((state) => state.location);
 
-    if (loading) {
+    useEffect(() => {
+        dispatch(fetchLocations());
+    }, []);
+
+    if (status === 'loading') {
         return <p>Loading...</p>;
     }
     return (

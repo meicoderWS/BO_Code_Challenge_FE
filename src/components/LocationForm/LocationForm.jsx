@@ -1,12 +1,13 @@
 import { Box, Button, Stack, TextField } from '@mui/material';
-import useAxiosRequest from '../../hooks/useAxiosRequest';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { saveLocation } from '../../redux/locationSlice';
 
 const LocationForm = () => {
+    const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
-    const { /* loading, data, error, */ makeRequest } = useAxiosRequest();
     const handleSubmit = (e) => {
         e.preventDefault();
         const newLocation = {
@@ -14,7 +15,7 @@ const LocationForm = () => {
             latitude,
             longitude
         };
-        makeRequest('post', newLocation);
+        dispatch(saveLocation(newLocation));
 
         setName('');
         setLatitude('');
