@@ -30,7 +30,13 @@ const saveLocation = createAsyncThunk('locations/save', async ({ name, latitude,
             }
         };
         const response = await axios(`${API_URL}`, options);
-        return response.data;
+        const newLocation = {
+            id: response.data,
+            name,
+            latitude,
+            longitude
+        };
+        return newLocation;
     } catch (error) {
         console.log('error', error);
     }
