@@ -13,9 +13,7 @@ const MapView = () => {
                     console.log('id', location.id);
                     return (
                         <Marker position={[location.latitude, location.longitude]} key={location.id}>
-                            <Popup>
-                                A pretty CSS3 popup. <br /> Easily customizable.
-                            </Popup>
+                            <Popup>{location.name}</Popup>
                         </Marker>
                     );
                 })}
