@@ -16,6 +16,21 @@ const fetchLocations = createAsyncThunk('locations/fetch', async () => {
     }
 });
 
+const searchLocations = createAsyncThunk('locations/search', async ({ distance, latitude, longitude }) => {
+    try {
+        const response = await axios['get'](`${API_URL}`, {
+            params: {
+                distance,
+                latitude,
+                longitude
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.log('error', error);
+    }
+});
+
 const saveLocation = createAsyncThunk('locations/save', async ({ name, latitude, longitude }) => {
     try {
         const options = {
@@ -68,10 +83,17 @@ const locationSlice = createSlice({
             })
             .addCase(saveLocation.pending, (state) => {
                 state.status = 'loading';
+            })
+            .addCase(searchLocations.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.locations = action.payload;
+            })
+            .addCase(searchLocations.pending, (state) => {
+                state.status = 'loading';
             });
     }
 });
 
-export { fetchLocations, saveLocation };
+export { fetchLocations, saveLocation, searchLocations };
 export const { addLocation, removeLocation } = locationSlice.actions;
 export default locationSlice.reducer;

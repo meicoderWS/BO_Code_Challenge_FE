@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchLocations } from '../../redux/locationSlice';
 import LocationItem from '../LocationItem/LocationItem';
+import LocationSearchForm from '../LocationSearchForm/LocationSearchForm';
 
 const LocationList = () => {
     const dispatch = useDispatch();
@@ -17,7 +18,8 @@ const LocationList = () => {
     }
     return (
         <>
-            <Typography variant="h6">Location List</Typography>
+            <Typography variant="h6">Location List - Search</Typography>
+            <LocationSearchForm />
 
             <Stack spacing={2} sx={{ paddingBlock: '2rem' }}>
                 {locations.map((location) => (
