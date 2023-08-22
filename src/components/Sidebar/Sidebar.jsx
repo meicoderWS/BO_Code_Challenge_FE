@@ -8,7 +8,7 @@ import ListIcon from '@mui/icons-material/List';
 
 const Sidebar = () => {
     const [viewForm, setViewForm] = useState(false);
-    const [viewList, setViewList] = useState(false);
+    const [viewList, setViewList] = useState(true);
 
     const handleViewForm = (e) => {
         e.preventDefault();

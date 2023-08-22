@@ -19,12 +19,12 @@ const LocationList = () => {
         };
     }, []);
     return (
-        <Container>
-            <Typography>Location List</Typography>
+        <Container sx={{ paddingBlock: '2rem' }}>
+            <Typography variant="h6">Location List</Typography>
             {loading ? (
                 <p>Loading...</p>
             ) : (
-                <Stack spacing={2}>
+                <Stack spacing={2} sx={{ paddingBlock: '2rem' }}>
                     {locations.map((location) => (
                         <Box key={location.id}>
                             <List>
